@@ -1,10 +1,9 @@
 ﻿using RestAspNet.Model;
 
-namespace RestAspNet.Services
+namespace RestAspNet.Repository
 {
-    public interface IPersonService
+    public interface IPersonRepository
     {
-
 
         Person Create(Person person);
 
@@ -15,5 +14,7 @@ namespace RestAspNet.Services
         Person Update(Person person);
 
         void Delete(int id);
+
+        bool Exists(int id);
     }
 }

@@ -1,12 +1,12 @@
 ﻿using RestAspNet.Model;
 using RestAspNet.Model.Context;
 
-namespace RestAspNet.Services.Implementations
+namespace RestAspNet.Repository.Implementations
 {
-    public class PersonServiceImplementation : IPersonService
+    public class PersonRepositoryImplementation : IPersonRepository
     {
         private MySQLContext _context;
-        public PersonServiceImplementation(MySQLContext context)
+        public PersonRepositoryImplementation(MySQLContext context)
         {
             _context = context;
         }
@@ -16,7 +16,7 @@ namespace RestAspNet.Services.Implementations
             {
                 _context.Add(person);
                 _context.SaveChanges();
-            } catch (Exception ex)
+            } catch (Exception)
             {
                 throw;
             }
@@ -55,7 +55,7 @@ namespace RestAspNet.Services.Implementations
 
         public Person Update(Person person)
         {
-            if (!Exists(person.Id)) return new Person();
+            if (!Exists(person.Id)) return null;
             
             var result = _context.Persons.SingleOrDefault(p => p.Id.Equals(person.Id));
 
@@ -84,9 +84,10 @@ namespace RestAspNet.Services.Implementations
             return person;
         }
 
-        private bool Exists(int id)
+        public bool Exists(int id)
         {
             return _context.Persons.Any(p => p.Id.Equals(id));
         }
+         
     }
 }

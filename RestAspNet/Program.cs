@@ -1,8 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using RestAspNet.Model.Context;
-using RestAspNet.Services;
-using RestAspNet.Services.Implementations;
-using System.Configuration;
+using RestAspNet.Business;
+using RestAspNet.Business.Implementations; 
+using RestAspNet.Repository.Implementations;
+using RestAspNet.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,12 +11,16 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 
+// api versioning
+builder.Services.AddApiVersioning();
+
 var connection = builder.Configuration["MysqlConnection:MySqlConnectionString"];
 
 // Dependency Injection
 builder.Services.AddDbContext<MySQLContext>(options => options.UseMySql(connection, new MySqlServerVersion(new Version(8, 0))));
  
-builder.Services.AddScoped<IPersonService, PersonServiceImplementation>();
+builder.Services.AddScoped<IPersonBusiness, PersonBusinessImplementation>();
+builder.Services.AddScoped<IPersonRepository, PersonRepositoryImplementation>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -28,6 +33,7 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+
 }
 
 app.UseHttpsRedirection();
