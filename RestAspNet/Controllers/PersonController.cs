@@ -35,9 +35,9 @@ namespace RestAspNet.Controllers
         // receiving an ID as in the Request Path
         // Get with parameters for FindById -> Search by ID
         [HttpGet("{id}")]
-        public IActionResult Get(int id)
+        public IActionResult Get(long id)
         {
-            var person = _personBusiness.FindById(id);
+            var person = _personBusiness.FindByID(id);
             if (person == null) return NotFound();
             return Ok(person);
         }

@@ -1,14 +1,12 @@
-﻿using RestAspNet.Model;
-using RestAspNet.Model.Context;
-using RestAspNet.Repository;
-using System;
+﻿using RestAspNet.Model; 
+using RestAspNet.Repository.Generic;
 
 namespace RestAspNet.Business.Implementations
 {
     public class PersonBusinessImplementation : IPersonBusiness
     {
-        private readonly IPersonRepository _repository;
-        public PersonBusinessImplementation(IPersonRepository repository)
+        private readonly IRepository<Person> _repository;
+        public PersonBusinessImplementation(IRepository<Person> repository)
         {
             _repository = repository;
         }
@@ -26,10 +24,10 @@ namespace RestAspNet.Business.Implementations
         {
             return _repository.FindAll();
         }
-
-        public Person FindById(int id)
+                
+        public Person FindByID(long id)
         {
-            var result = _repository.FindById(id);
+            var result = _repository.FindByID(id);
             return result; 
         }
 
