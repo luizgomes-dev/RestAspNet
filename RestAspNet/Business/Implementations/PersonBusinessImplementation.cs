@@ -1,4 +1,6 @@
-﻿using RestAspNet.Model; 
+﻿using RestAspNet.Data.Converter.Implementation;
+using RestAspNet.Data.VO;
+using RestAspNet.Model; 
 using RestAspNet.Repository.Generic;
 
 namespace RestAspNet.Business.Implementations
@@ -6,13 +8,16 @@ namespace RestAspNet.Business.Implementations
     public class PersonBusinessImplementation : IPersonBusiness
     {
         private readonly IRepository<Person> _repository;
+        private readonly PersonConverter _converter;
         public PersonBusinessImplementation(IRepository<Person> repository)
         {
             _repository = repository;
+            _converter = new PersonConverter();
         }
-        public Person Create(Person person)
-        {
-            return _repository.Create(person); 
+        public PersonVO Create(PersonVO person)
+        {   
+            var personEntity = _converter.Parse(person);
+            return _converter.Parse(_repository.Create(personEntity)); 
         }
 
         public void Delete(int id)
@@ -20,20 +25,21 @@ namespace RestAspNet.Business.Implementations
             _repository.Delete(id);
         }
 
-        public List<Person> FindAll()
+        public List<PersonVO> FindAll()
         {
-            return _repository.FindAll();
+            return _converter.Parse(_repository.FindAll());
         }
                 
-        public Person FindByID(long id)
+        public PersonVO FindByID(long id)
         {
             var result = _repository.FindByID(id);
-            return result; 
+            return _converter.Parse(result); 
         }
 
-        public Person Update(Person person)
-        { 
-            return _repository.Update(person);      
+        public PersonVO Update(PersonVO person)
+        {
+            var personEntity = _converter.Parse(person);
+            return _converter.Parse(_repository.Update(personEntity));      
         }
 
         private bool Exists(int id)

@@ -1,4 +1,6 @@
-﻿using RestAspNet.Model;
+﻿using RestAspNet.Data.Converter.Implementation;
+using RestAspNet.Data.VO;
+using RestAspNet.Model;
 using RestAspNet.Repository.Generic;
 
 namespace RestAspNet.Business.Implementations
@@ -7,34 +9,42 @@ namespace RestAspNet.Business.Implementations
     {
 
         private readonly IRepository<Book> _repository;
+        private readonly BookConverter _converter;
 
         public BookBusinessImplementation(IRepository<Book> repository)
         {
             _repository = repository;
+            _converter = new BookConverter();
         }
 
         // Method responsible for returning all people,
-        public List<Book> FindAll()
-        {
-            return _repository.FindAll();
+        public List<BookVO> FindAll()
+        {   
+            var listBook = _repository.FindAll();
+            return _converter.Parse(listBook);
         }
 
         // Method responsible for returning one book by ID
-        public Book FindByID(long id)
+        public BookVO FindByID(long id)
         {
-            return _repository.FindByID(id);
+            var book = _repository.FindByID(id);
+            return _converter.Parse(book);
         }
 
         // Method responsible to crete one new book
-        public Book Create(Book book)
+        public BookVO Create(BookVO book)
         {
-            return _repository.Create(book);
+            var bookEntity = _converter.Parse(book);
+            bookEntity = _repository.Create(bookEntity);
+            return _converter.Parse(bookEntity);
         }
 
         // Method responsible for updating one book
-        public Book Update(Book book)
-        {
-            return _repository.Update(book);
+        public BookVO Update(BookVO book)
+        {   
+            var bookEntity = _converter.Parse(book);
+            bookEntity = _repository.Update(bookEntity);
+            return _converter.Parse(bookEntity);
         }
 
         // Method responsible for deleting a book from an ID
