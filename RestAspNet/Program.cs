@@ -3,6 +3,7 @@ using RestAspNet.Model.Context;
 using RestAspNet.Business;
 using RestAspNet.Business.Implementations;   
 using RestAspNet.Repository.Generic;
+using Microsoft.Net.Http.Headers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +15,13 @@ builder.Services.AddControllers();
 builder.Services.AddApiVersioning();
 
 var connection = builder.Configuration["MysqlConnection:MySqlConnectionString"];
+
+builder.Services.AddMvc(options =>
+{
+    options.RespectBrowserAcceptHeader = true; // false by default
+    options.FormatterMappings.SetMediaTypeMappingForFormat("xml", MediaTypeHeaderValue.Parse("application/xml"));
+    options.FormatterMappings.SetMediaTypeMappingForFormat("json", MediaTypeHeaderValue.Parse("application/json"));
+}).AddXmlSerializerFormatters();
 
 // Dependency Injection
 builder.Services.AddDbContext<MySQLContext>(options => options.UseMySql(connection, new MySqlServerVersion(new Version(8, 0))));
