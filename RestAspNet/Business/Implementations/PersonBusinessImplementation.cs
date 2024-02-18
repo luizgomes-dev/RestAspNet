@@ -30,7 +30,7 @@ namespace RestAspNet.Business.Implementations
             return _converter.Parse(_repository.FindAll());
         }
                 
-        public PersonVO FindByID(long id)
+        public PersonVO FindByID(int id)
         {
             var result = _repository.FindByID(id);
             return _converter.Parse(result); 

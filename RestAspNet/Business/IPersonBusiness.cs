@@ -8,7 +8,7 @@ namespace RestAspNet.Business
 
         PersonVO Create(PersonVO person);
 
-        PersonVO FindByID(long id);
+        PersonVO FindByID(int id);
 
         List<PersonVO> FindAll();
 

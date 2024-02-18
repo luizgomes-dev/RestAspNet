@@ -2,6 +2,8 @@
 using RestAspNet.Model;
 using RestAspNet.Business;
 using RestAspNet.Data.VO;
+using System.Xml.Linq;
+using AspNetCore.Hateoas.Models;
 
 namespace RestAspNet.Controllers
 {
@@ -27,6 +29,8 @@ namespace RestAspNet.Controllers
         // Maps GET requests to https://localhost:{port}/api/person
         // Get no parameters for FindAll -> Search All
         [HttpGet]
+        [ProducesResponseType((200), Type = typeof(List<PersonVO>))]
+        [ProducesResponseType(204)]
         public IActionResult Get()
         {
             return Ok(_personBusiness.FindAll());
@@ -35,17 +39,17 @@ namespace RestAspNet.Controllers
         // Maps GET requests to https://localhost:{port}/api/person/{id}
         // receiving an ID as in the Request Path
         // Get with parameters for FindById -> Search by ID
-        [HttpGet("{id}")]
-        public IActionResult Get(long id)
+        [HttpGet("{id}", Name = "get-person")]
+        public IActionResult Get(int id)
         {
             var person = _personBusiness.FindByID(id);
-            if (person == null) return NotFound();
+            if (person == null) return NotFound(); 
             return Ok(person);
         }
 
         // Maps POST requests to https://localhost:{port}/api/person/
         // [FromBody] consumes the JSON object sent in the request body
-        [HttpPost]
+        [HttpPost(Name = "create-person")]
         public IActionResult Post([FromBody] PersonVO person)
         {
             if (person == null) return BadRequest();
@@ -54,7 +58,7 @@ namespace RestAspNet.Controllers
 
         // Maps PUT requests to https://localhost:{port}/api/person/
         // [FromBody] consumes the JSON object sent in the request body
-        [HttpPut]
+        [HttpPut(Name = "update-person")]
         public IActionResult Put([FromBody] PersonVO person)
         {
             if (person == null) return BadRequest();
@@ -63,7 +67,7 @@ namespace RestAspNet.Controllers
 
         // Maps DELETE requests to https://localhost:{port}/api/person/{id}
         // receiving an ID as in the Request Path
-        [HttpDelete("{id}")]
+        [HttpDelete("{id}", Name = "delete-person")]
         public IActionResult Delete(int id)
         {
             _personBusiness.Delete(id);

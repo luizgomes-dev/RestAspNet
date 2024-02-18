@@ -20,7 +20,7 @@ namespace RestAspNet.Repository.Generic
             return dataset.ToList();
         }
 
-        public T FindByID(long id)
+        public T FindByID(int id)
         {
             return dataset.SingleOrDefault(p => p.Id.Equals(id));
         }

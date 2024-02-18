@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using AspNetCore.Hateoas.Models;
+using System.Text.Json.Serialization;
 
 namespace RestAspNet.Data.VO
 {
@@ -13,6 +14,7 @@ namespace RestAspNet.Data.VO
         public string LastName { get; set; }
         public string Address{ get; set; }
         public string Gender { get; set; }
+         
 
     }
 }

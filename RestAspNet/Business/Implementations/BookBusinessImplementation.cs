@@ -25,7 +25,7 @@ namespace RestAspNet.Business.Implementations
         }
 
         // Method responsible for returning one book by ID
-        public BookVO FindByID(long id)
+        public BookVO FindByID(int id)
         {
             var book = _repository.FindByID(id);
             return _converter.Parse(book);

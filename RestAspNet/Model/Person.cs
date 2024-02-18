@@ -1,4 +1,5 @@
-﻿using RestAspNet.Model.Base;
+﻿using AspNetCore.Hateoas.Models;
+using RestAspNet.Model.Base;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RestAspNet.Model
@@ -17,6 +18,5 @@ namespace RestAspNet.Model
 
         [Column("gender")]
         public string Gender { get; set; }
-
     }
 }
